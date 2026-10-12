@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd1e6">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Pixel Habit Quest — уютный трекер привычек с виртуальным питомцем, ачивками и челленджами с друзьями.">
+  <title>Pixel Habit Quest — трекер привычек</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="bg-deco" aria-hidden="true"></div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">
+        <img src="./assets/favicon.svg" alt="" width="36" height="36">
+        <h1>Pixel Habit<br><span>Quest</span></h1>
+      </div>
+      <div class="chips" aria-label="Статистика">
+        <div class="chip" title="Серия дней подряд">
+          <img src="./assets/icon-flame.svg" alt="" width="22" height="22">
+          <span id="chip-streak">0</span>
+        </div>
+        <div class="chip" title="Уровень питомца">
+          <img src="./assets/icon-heart.svg" alt="" width="22" height="22">
+          <span id="chip-level">Ур. 1</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============ ДОМ: питомец + привычки ============ -->
+      <section id="tab-home" class="panel" role="tabpanel" aria-labelledby="tabbtn-home">
+        <article class="card pbox pet-card" aria-labelledby="pet-title">
+          <div class="scene" id="pet-scene" data-mood="happy" data-stage="egg">
+            <img class="cloud c1" src="./assets/icon-cloud.svg" alt="" width="64" height="64">
+            <img class="cloud c2" src="./assets/icon-cloud.svg" alt="" width="48" height="48">
+            <img class="twinkle t1" src="./assets/icon-star.svg" alt="" width="20" height="20">
+            <img class="twinkle t2" src="./assets/icon-star.svg" alt="" width="14" height="14">
+            <div class="bubble" id="pet-bubble" role="status" aria-live="polite">Тук-тук! Я Зефирка.</div>
+            <button class="pet-btn" id="pet-btn" type="button" aria-label="Погладить питомца">
+              <img id="pet-img" src="./assets/pet-egg-happy.svg" alt="Питомец" width="128" height="128">
+            </button>
+            <div class="pet-shadow" aria-hidden="true"></div>
+            <div class="ground" aria-hidden="true"></div>
+          </div>
+
+          <div class="pet-info">
+            <div class="name-row">
+              <h2 id="pet-title"><span id="pet-name">Зефирка</span></h2>
+              <button class="icon-btn" id="pet-rename" type="button" aria-label="Переименовать питомца" data-ico="edit"></button>
+            </div>
+            <p class="stage" id="pet-stage">Яйцо · ур. 1</p>
+
+            <div class="stat">
+              <span class="stat-label"><img src="./assets/icon-heart.svg" alt="" width="18" height="18">Счастье</span>
+              <div class="bar" role="progressbar" aria-label="Счастье" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" id="joy-bar">
+                <div class="bar-fill joy" id="joy-fill"></div>
+              </div>
+              <span class="stat-val" id="joy-text">70%</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label"><img src="./assets/icon-star.svg" alt="" width="18" height="18">Опыт</span>
+              <div class="bar" role="progressbar" aria-label="Опыт до следующего уровня" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xp-bar">
+                <div class="bar-fill xp" id="xp-fill"></div>
+              </div>
+              <span class="stat-val" id="xp-text">0 / 40</span>
+            </div>
+
+            <ol class="evo" id="evo-track" aria-label="Эволюция питомца"></ol>
+          </div>
+        </article>
+
+        <section class="today" aria-labelledby="today-title">
+          <div class="section-head">
+            <div>
+              <h2 id="today-title">Сегодня</h2>
+              <p class="date" id="today-date"></p>
+            </div>
+            <div class="count pbox" id="today-count" aria-label="Выполнено сегодня">0/0</div>
+          </div>
+
+          <ul class="habit-list" id="habit-list"></ul>
+
+          <div class="suggest" id="suggest" hidden>
+            <p class="hint">Быстрые идеи — нажми, чтобы добавить:</p>
+            <div class="chips-row" id="suggest-list"></div>
+          </div>
+
+          <button class="btn primary wide" id="add-habit" type="button">
+            <span data-ico="plus"></span> Новая привычка
+          </button>
+        </section>
+      </section>
+
+      <!-- ============ АЧИВКИ ============ -->
+      <section id="tab-achievements" class="panel" role="tabpanel" aria-labelledby="tabbtn-achievements" hidden>
+        <div class="section-head">
+          <div>
+            <h2>Коллекция ачивок</h2>
+            <p class="date" id="ach-summary"></p>
+          </div>
+        </div>
+        <div class="bar big" id="ach-bar" role="progressbar" aria-label="Собрано ачивок" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="bar-fill gold" id="ach-fill"></div>
+        </div>
+        <ul class="ach-grid" id="ach-grid"></ul>
+      </section>
+
+      <!-- ============ ДРУЗЬЯ ============ -->
+      <section id="tab-friends" class="panel" role="tabpanel" aria-labelledby="tabbtn-friends" hidden>
+        <div class="section-head">
+          <div>
+            <h2>Лига недели</h2>
+            <p class="date">Очки = отметки за неделю × 10</p>
+          </div>
+        </div>
+        <ol class="league" id="league"></ol>
+
+        <div class="section-head spaced">
+          <div>
+            <h2>Совместные челленджи</h2>
+            <p class="date">Вступай и соревнуйся с друзьями</p>
+          </div>
+        </div>
+        <ul class="challenges" id="challenge-list"></ul>
+
+        <p class="note">Друзья и их прогресс — демо-данные: всё считается прямо в твоём браузере, никакие данные никуда не отправляются.</p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <button class="link-btn" id="reset-btn" type="button">Сбросить весь прогресс</button>
+      <p>Данные хранятся только в твоём браузере (localStorage).</p>
+    </footer>
+  </div>
+
+  <nav class="tabbar" aria-label="Разделы">
+    <div class="tabbar-inner" role="tablist">
+      <button class="tab-btn active" id="tabbtn-home" role="tab" type="button" data-tab="home" aria-selected="true" aria-controls="tab-home">
+        <img src="./assets/icon-sprout.svg" alt="" width="28" height="28">
+        <span>Дом</span>
+      </button>
+      <button class="tab-btn" id="tabbtn-achievements" role="tab" type="button" data-tab="achievements" aria-selected="false" aria-controls="tab-achievements" tabindex="-1">
+        <img src="./assets/icon-trophy.svg" alt="" width="28" height="28">
+        <span>Ачивки</span>
+      </button>
+      <button class="tab-btn" id="tabbtn-friends" role="tab" type="button" data-tab="friends" aria-selected="false" aria-controls="tab-friends" tabindex="-1">
+        <img src="./assets/icon-team.svg" alt="" width="28" height="28">
+        <span>Друзья</span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <div id="modal-root"></div>
+
+  <noscript>
+    <div class="noscript">Для работы приложения нужен включённый JavaScript.</div>
+  </noscript>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>
